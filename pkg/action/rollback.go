@@ -155,6 +155,15 @@ func (r *Rollback) performRollback(currentRelease, targetRelease *release.Releas
 		return targetRelease, errors.Wrap(err, "unable to build kubernetes objects from new release manifest")
 	}
 
+	// pre-migration hooks
+	if !r.DisableHooks {
+		if err := r.cfg.execHook(currentRelease, release.HookPreMigration, r.Timeout); err != nil {
+			return targetRelease, err
+		}
+	} else {
+		r.cfg.Log("rollback hooks disabled for %s", targetRelease.Name)
+	}
+
 	// pre-rollback hooks
 	if !r.DisableHooks {
 		if err := r.cfg.execHook(targetRelease, release.HookPreRollback, r.Timeout); err != nil {
@@ -225,6 +234,13 @@ func (r *Rollback) performRollback(currentRelease, targetRelease *release.Releas
 	// post-rollback hooks
 	if !r.DisableHooks {
 		if err := r.cfg.execHook(targetRelease, release.HookPostRollback, r.Timeout); err != nil {
+			return targetRelease, err
+		}
+	}
+
+	// post-migration hooks
+	if !r.DisableHooks {
+		if err := r.cfg.execHook(currentRelease, release.HookPostMigration, r.Timeout); err != nil {
 			return targetRelease, err
 		}
 	}

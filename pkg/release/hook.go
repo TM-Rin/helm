@@ -25,15 +25,17 @@ type HookEvent string
 
 // Hook event types
 const (
-	HookPreInstall   HookEvent = "pre-install"
-	HookPostInstall  HookEvent = "post-install"
-	HookPreDelete    HookEvent = "pre-delete"
-	HookPostDelete   HookEvent = "post-delete"
-	HookPreUpgrade   HookEvent = "pre-upgrade"
-	HookPostUpgrade  HookEvent = "post-upgrade"
-	HookPreRollback  HookEvent = "pre-rollback"
-	HookPostRollback HookEvent = "post-rollback"
-	HookTest         HookEvent = "test"
+	HookPreInstall    HookEvent = "pre-install"
+	HookPostInstall   HookEvent = "post-install"
+	HookPreDelete     HookEvent = "pre-delete"
+	HookPostDelete    HookEvent = "post-delete"
+	HookPreUpgrade    HookEvent = "pre-upgrade"
+	HookPostUpgrade   HookEvent = "post-upgrade"
+	HookPreRollback   HookEvent = "pre-rollback"
+	HookPostRollback  HookEvent = "post-rollback"
+	HookPreMigration  HookEvent = "pre-migration"
+	HookPostMigration HookEvent = "post-migration"
+	HookTest          HookEvent = "test"
 )
 
 func (x HookEvent) String() string { return string(x) }
